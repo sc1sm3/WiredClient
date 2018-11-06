@@ -884,6 +884,7 @@
 		77E36EEC0F82414F0065329A /* WCFilesSourceOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WCFilesSourceOutlineView.h; path = Sources/WCFilesSourceOutlineView.h; sourceTree = "<group>"; };
 		77E36EED0F82414F0065329A /* WCFilesSourceOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WCFilesSourceOutlineView.m; path = Sources/WCFilesSourceOutlineView.m; sourceTree = "<group>"; };
 		8412F05D439B9F0793485926 /* Pods-Wired Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wired Client.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wired Client/Pods-Wired Client.release.xcconfig"; sourceTree = "<group>"; };
+		84C45C162192340500B83198 /* set_build_number.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = set_build_number.sh; sourceTree = "<group>"; };
 		A509AD1105F7FBFF00E6AE2D /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		A51474A70F487ECD00DBE395 /* WCErrorQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WCErrorQueue.h; path = Sources/WCErrorQueue.h; sourceTree = "<group>"; };
 		A51474A80F487ECD00DBE395 /* WCErrorQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WCErrorQueue.m; path = Sources/WCErrorQueue.m; sourceTree = "<group>"; };
@@ -1585,6 +1586,14 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		84C45C0B219233C700B83198 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				84C45C162192340500B83198 /* set_build_number.sh */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
 		A52B1C1206C4033B0033D317 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -1789,6 +1798,7 @@
 		A52B1C4706C408210033D317 /* Wired Client */ = {
 			isa = PBXGroup;
 			children = (
+				84C45C0B219233C700B83198 /* Scripts */,
 				29B97315FDCFA39411CA2CEA /* Sources */,
 				A5E8BABF08748D6D0010F2A4 /* Config */,
 				4CF094B51559D669005D77BB /* Templates */,
@@ -2004,6 +2014,7 @@
 				4C2BDA5417F909230069B38E /* Copy Emoticon Packs */,
 				41A4977D16E8C8CEE4C029C0 /* [CP] Embed Pods Frameworks */,
 				4E8A4810DCF1700E64BB092D /* [CP] Copy Pods Resources */,
+				84C45C172192353600B83198 /* Set Build Number */,
 			);
 			buildRules = (
 			);
@@ -2450,6 +2461,24 @@
 			shellPath = /bin/bash;
 			shellScript = "sh \"$SRCROOT/../../wired_client_localize.sh\" || exit 1";
 			showEnvVarsInLog = 0;
+		};
+		84C45C172192353600B83198 /* Set Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Build Number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/set_build_number.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
