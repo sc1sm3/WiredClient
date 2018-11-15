@@ -1698,6 +1698,7 @@
 				770B8A64075C86BD005327F5 /* Copy Frameworks */,
 				4C2BDA5417F909230069B38E /* Copy Emoticon Packs */,
 				41A4977D16E8C8CEE4C029C0 /* [CP] Embed Pods Frameworks */,
+				84EEF029219E29A8009040DE /* Set Build Number */,
 			);
 			buildRules = (
 			);
@@ -1900,7 +1901,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Wired Client/Pods-Wired Client-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Wired Client/Pods-Wired Client-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/NSDate+TimeAgo/NSDate_TimeAgo.framework",
 				"${BUILT_PRODUCTS_DIR}/SBJson4/SBJson4.framework",
 				"${PODS_ROOT}/Sparkle/Sparkle.framework",
@@ -1915,7 +1916,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wired Client/Pods-Wired Client-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Wired Client/Pods-Wired Client-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4C06678915DEC69F00E8D810 /* ShellScript */ = {
@@ -2020,7 +2021,7 @@
 			shellScript = "sh \"$SRCROOT/../../wired_client_localize.sh\" || exit 1";
 			showEnvVarsInLog = 0;
 		};
-		84C45C172192353600B83198 /* Set Build Number */ = {
+		84EEF029219E29A8009040DE /* Set Build Number */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
