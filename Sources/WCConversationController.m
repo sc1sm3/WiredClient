@@ -70,10 +70,11 @@
 
 
 - (void)awakeFromNib {
-	[_conversationWebView setUIDelegate:self];
-    [_conversationWebView setFrameLoadDelegate:self];
-	[_conversationWebView setResourceLoadDelegate:self];
-	[_conversationWebView setPolicyDelegate:self];
+	[_conversationWebView setUIDelegate:(id)self];
+    [_conversationWebView setFrameLoadDelegate:(id)self];
+	[_conversationWebView setResourceLoadDelegate:(id)self];
+	[_conversationWebView setPolicyDelegate:(id)self];
+    [_conversationWebView registerForDraggedTypes:@[NSFilenamesPboardType]];
     
     [self reloadData];
 }
@@ -280,14 +281,14 @@
     NSURL               *url;
 	WIURL				*wiredURL;
 	WCFile				*file;
+    NSData              *fileData;
+    NSImage             *droppedImage;
 	BOOL				handled     = NO;
 	BOOL                isDirectory = NO;
     
     conversation        = [self conversation];
     
-	if([[action objectForKey:WebActionNavigationTypeKey] unsignedIntegerValue] == WebNavigationTypeOther) {
-		[listener use];
-	} else {
+	if([[action objectForKey:WebActionNavigationTypeKey] unsignedIntegerValue] == WebNavigationTypeLinkClicked) {
 		[listener ignore];
         
         url         = [action objectForKey:WebActionOriginalURLKey];
@@ -318,7 +319,23 @@
 		
 		if(!handled)
 			[[NSWorkspace sharedWorkspace] openURL:[action objectForKey:WebActionOriginalURLKey]];
-	}
+	
+    } else {
+        url = [action objectForKey:WebActionOriginalURLKey];
+        
+        if (![[url pathExtension] isEqualToString:@"html"]) {
+            [listener ignore];
+            
+            fileData        = [NSData dataWithContentsOfURL:url];
+            droppedImage    = [NSImage imageWithData:fileData];
+            
+            if (droppedImage) {
+                [self _sendLocalImage:url];
+            }
+        }
+        
+        [listener use];
+    }
 }
 
 
@@ -335,7 +352,26 @@
     // useless but required
 }
 
-
+- (NSUInteger)webView:(WebView *)webView
+dragDestinationActionMaskForDraggingInfo:(id<NSDraggingInfo>)draggingInfo {
+    return WebDragDestinationActionLoad;
+}
+    
+    
+- (void)_sendLocalImage:(NSURL *)url {
+    NSString            *html;
+    NSString            *base64ImageString;
+    NSData              *imageData;
+    
+    imageData = [NSData dataWithContentsOfURL:url];
+    base64ImageString = [imageData base64EncodedString];
+    
+    html = [NSSWF:@"<img src='data:image/png;base64, %@'/>", base64ImageString];
+    
+    if(html && [html length] > 0) {
+         [[WCMessages messages] sendMessage:html toUser:self.conversation.user];
+    }
+}
 
 
 #pragma mark -
@@ -391,7 +427,7 @@
     dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    [dateFormatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar]];
+    [dateFormatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
     
     return [dateFormatter stringFromDate:[_conversation date]];
 }
@@ -406,7 +442,7 @@
     NSArray             *sortedMessages;
     NSCalendar          *calendar;
     
-    calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];

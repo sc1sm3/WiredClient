@@ -2765,6 +2765,10 @@ static inline NSTimeInterval _WCTransfersTimeInterval(void) {
 
 
 - (IBAction)quickLook:(id)sender {
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    
 	NSEnumerator		*enumerator;
 	NSMutableArray		*urls;
 	WCTransfer			*transfer;
@@ -2799,6 +2803,8 @@ static inline NSTimeInterval _WCTransfersTimeInterval(void) {
 								 withObject:urls];
 		}
 	}
+    
+#pragma clang diagnostic pop
 }
 
 
@@ -2838,7 +2844,7 @@ static inline NSTimeInterval _WCTransfersTimeInterval(void) {
 		else
 			path = [transfer localPath];
 		
-		[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:NULL];
+		[[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:@""];
 	}
 }
 
@@ -2921,7 +2927,7 @@ static inline NSTimeInterval _WCTransfersTimeInterval(void) {
 	enumerator		= [[self _selectedTransfers] objectEnumerator];
 	
 	while((transfer = [enumerator nextObject]))
-		[string appendFormat:[NSSWF:@"%@ - %@\n", [transfer name], [self _statusForTransfer:transfer]]];
+		[string appendFormat:@"%@",[NSSWF:@"%@ - %@\n", [transfer name], [self _statusForTransfer:transfer]]];
 	
 	[string trimCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
